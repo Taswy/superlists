@@ -32,7 +32,7 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
         table = self.driver.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(any(row.text == '1: Buy peacock feather' for row in rows))
+        self.assertTrue(any(row.text == '1: Buy peacock feather' for row in rows), "New to-do item did not appear in table")
 
         #页面更新，显示一条代办事务“Buy peacock feather”
 
