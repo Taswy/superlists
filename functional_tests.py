@@ -15,6 +15,11 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
+    def check_for_row_in_list_table(self,row_text):
+        table =self.driver.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text,[row.text for row in  rows])
+
     def test_process(self):
         #用户打开在线待办事务应用首页
         self.driver.get("http://localhost:8000")
@@ -30,10 +35,7 @@ class NewVisitorTest(unittest.TestCase):
 
         #他按回车键后，页面更新
         inputbox.send_keys(Keys.ENTER)
-        table = self.driver.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(any(row.text == '1: Buy peacock feather' for row in rows),
-                        "New to-do item did not appear in table -- \n%s" % (table.text))
+        self.check_for_row_in_list_table('1: Buy peacock feather')
 
         #页面更新，显示一条代办事务“Buy peacock feather”
 
@@ -45,9 +47,8 @@ class NewVisitorTest(unittest.TestCase):
         #页面再次更新 显示两条
         table =self.driver.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        print rows
-        self.assertIn('1: Buy peacock feather',[row.text for row in  rows])
-        self.assertIn('2: Use peacock feathers to make a fly',[row.text for row in  rows])
+        self.check_for_row_in_list_table('1: Buy peacock feather')
+        self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
         self.fail('Finish the test.')
         #用户的其他操作...
 
