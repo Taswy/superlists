@@ -75,7 +75,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         # 用户1获得了它的唯一url
         francis_list_url = self.driver.current_url
-        self.assertRegexpMatches(francis_list_url, '/list/.+')
+        self.assertRegexpMatches(francis_list_url, '/lists/.+')
         self.assertNotEqual(francis_list_url, edith_list_url)
 
         #刷新之后的页面还是没有edith的清单
