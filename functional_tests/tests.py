@@ -1,12 +1,13 @@
 #coding=utf-8
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from django.test import LiveServerTestCase
 import unittest
 import os
 
 chrome_driver_path = r"C:\Users\stone\Desktop\chromedriver.exe"
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         chrome_driver = os.path.abspath(chrome_driver_path)
         os.environ["webdriver.chrome.driver"] = chrome_driver
@@ -22,7 +23,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_process(self):
         #用户打开在线待办事务应用首页
-        self.driver.get("http://localhost:8000")
+        self.driver.get(self.live_server_url)
         #以确定打开首页，其标题和头部包含‘To-Do’
         self.assertIn('To-Do' , self.driver.title)
         header_text = self.driver.find_element_by_tag_name('h1').text
