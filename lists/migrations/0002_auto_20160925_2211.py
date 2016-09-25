@@ -11,9 +11,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
+        migrations.AlterField(
             model_name='item',
-            name='text',
-            field=models.TextField(default=b''),
+            name='list',
+            field=models.ForeignKey(default=None, to='lists.List'),
         ),
     ]

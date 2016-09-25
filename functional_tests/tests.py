@@ -41,6 +41,7 @@ class NewVisitorTest(LiveServerTestCase):
         #这个页面显示一条代办事务“Buy peacock feather”
         edith_list_url = self.driver.current_url
         self.assertRegexpMatches(edith_list_url, '/lists/.+')
+        print edith_list_url
         self.check_for_row_in_list_table('1: Buy peacock feather')
         #页面又显示一个文本框，可以输入其他的待办事项]
         #他有输入“Use peacock feathers to make a fly ”
