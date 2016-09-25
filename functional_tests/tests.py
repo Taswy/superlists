@@ -79,7 +79,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotEqual(francis_list_url, edith_list_url)
 
         #刷新之后的页面还是没有edith的清单
-        page_text = self.driver.find_element_by_id('body')
+        page_text = self.driver.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feather', page_text)
         self.assertIn('Buy milk', page_text)
 

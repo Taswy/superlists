@@ -19,6 +19,7 @@ from django.contrib import admin
 urlpatterns =  patterns('',
                         url(r'^$', 'lists.views.home_page',name='home'),
                         url(r'^admin/', include(admin.site.urls)),
-                        url(r'^lists/the-only-list-in-the-world/$', 'lists.views.view_lists', name='view_list'),
+                        url(r'^lists/(\d+)/$', 'lists.views.view_list', name='view_list'),
+                        url(r'^lists/(\d+)/add_item$', 'lists.views.add_item', name='add_item'),
                         url(r'^lists/new$', 'lists.views.new_lists', name='new_list'),
 )
