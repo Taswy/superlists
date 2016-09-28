@@ -1,11 +1,12 @@
 #coding=utf-8
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
 import unittest
 import os
 
-chrome_driver_path = r"C:\Users\stone\Desktop\chromedriver.exe"
+chrome_driver_path = r"/local/chromedriver"
 
 class NewVisitorTest(LiveServerTestCase):
     def start_a_chrome(self):
