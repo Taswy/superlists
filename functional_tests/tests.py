@@ -3,19 +3,37 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import unittest
 import os
+import sys
 
 chrome_driver_path = r"/local/chromedriver"
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
+    @classmethod
+    def setUpClass(cls):
+        for arg in sys.argv:
+            if 'liveserver' in arg:
+                cls.server_url = 'http://' + arg.split('=')[1]
+                return
+        super(NewVisitorTest,cls).setUpClass()
+        cls.server_url = cls.live_server_url
+
+    @classmethod
+    def tearDownClass(cls):
+        if cls.server_url == cls.live_server_url:
+            super(NewVisitorTest, cls).tearDownClass()
+
     def start_a_chrome(self):
         chrome_driver = os.path.abspath(chrome_driver_path)
         os.environ["webdriver.chrome.driver"] = chrome_driver
         return webdriver.Chrome(chrome_driver)
+
     def setUp(self):
         self.driver = self.start_a_chrome()
         self.driver.implicitly_wait(3) #3秒等待
+
     def tearDown(self):
         self.driver.quit()
 
@@ -26,7 +44,7 @@ class NewVisitorTest(LiveServerTestCase):
 
     def test_process(self):
         #用户打开在线待办事务应用首页
-        self.driver.get(self.live_server_url)
+        self.driver.get(self.server_url)
         #以确定打开首页，其标题和头部包含‘To-Do’
         self.assertIn('To-Do' , self.driver.title)
         header_text = self.driver.find_element_by_tag_name('h1').text
@@ -64,7 +82,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         # 用户2访问首页
         # 页面中看不到用户1的清单
-        self.driver.get(self.live_server_url)
+        self.driver.get(self.server_url)
         page_text = self.driver.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feather', page_text)
         self.assertNotIn('Use peacock feathers to make a fly', page_text)
